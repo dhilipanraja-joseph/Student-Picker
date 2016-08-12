@@ -6,15 +6,20 @@ import StudentsShow from './studentsShow'
 
 const StudentList= React.createClass({
   getInitialState(){
+    try{
+      var data = JSON.parse(localStorage.students);
+    }catch(e){
+      data = [];
+    }
     return {
-      students : []
+      students : data
     }
   },
-  componentWillUpdate(){
-    console.log("from will update");
-  },
+  // componentWillUpdate(){
+  //   console.log("from will update");
+  // },
   componentDidUpdate(){
-    console.log("from did update");
+    localStorage.students=JSON.stringify(this.state.students);
   },
   addStudent(name){
     //let arrn = names.split(',');
