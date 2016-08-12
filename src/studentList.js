@@ -1,3 +1,4 @@
+const uuid = require('uuid');
 import React from 'react'
 
 import AddFrom from './addForm'
@@ -9,8 +10,20 @@ const StudentList= React.createClass({
       students : []
     }
   },
-  addStudent(){
-    console.log("add student");
+  componentWillUpdate(){
+    console.log("from will update");
+  },
+  componentDidUpdate(){
+    console.log("from did update");
+  },
+  addStudent(name){
+    //let arrn = names.split(',');
+    // console.log("names",names);
+    // names.forEach(name =>{
+      var student = {name,id : uuid()};
+      // console.log("from for loop");
+      this.setState({ students : this.state.students.concat(student) });
+    // });
   },
   render(){
     return (
