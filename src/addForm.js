@@ -9,9 +9,9 @@ const AddFrom = React.createClass({
   addStudent(e){
     e.preventDefault();
     //console.log('name',this.state.name);
-    //let names=this.state.name.split(',');
+    let names=this.state.name.split(',');
     //console.log("name",name);
-    this.props.addStudent(this.state.name);
+    this.props.addStudent(names);
     this.setState({name : ''});
   },
   render(){

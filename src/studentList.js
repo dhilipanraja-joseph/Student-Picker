@@ -19,11 +19,11 @@ const StudentList= React.createClass({
   addStudent(name){
     //let arrn = names.split(',');
     // console.log("names",names);
-    // names.forEach(name =>{
-      var student = {name,id : uuid()};
+     let names = name.map(name =>{
+      return {name,id : uuid()}
+      });
       // console.log("from for loop");
-      this.setState({ students : this.state.students.concat(student) });
-    // });
+      this.setState({ students : this.state.students.concat(names) });
   },
   render(){
     return (

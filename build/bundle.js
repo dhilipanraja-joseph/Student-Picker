@@ -109,11 +109,11 @@
 	  addStudent: function addStudent(name) {
 	    //let arrn = names.split(',');
 	    // console.log("names",names);
-	    // names.forEach(name =>{
-	    var student = { name: name, id: uuid() };
+	    var names = name.map(function (name) {
+	      return { name: name, id: uuid() };
+	    });
 	    // console.log("from for loop");
-	    this.setState({ students: this.state.students.concat(student) });
-	    // });
+	    this.setState({ students: this.state.students.concat(names) });
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(
@@ -4244,9 +4244,9 @@
 	  addStudent: function addStudent(e) {
 	    e.preventDefault();
 	    //console.log('name',this.state.name);
-	    //let names=this.state.name.split(',');
+	    var names = this.state.name.split(',');
 	    //console.log("name",name);
-	    this.props.addStudent(this.state.name);
+	    this.props.addStudent(names);
 	    this.setState({ name: '' });
 	  },
 	  render: function render() {
@@ -4290,15 +4290,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _ = __webpack_require__(39);
-
 	var StudentsShow = _react2.default.createClass({
 	  displayName: 'StudentsShow',
 	  getInitialState: function getInitialState() {
 	    return {
-	      chossen: '',
-	      teamMem: '',
-	      teams: []
+	      chossen: ''
 	    };
 	  },
 	  theOne: function theOne() {
@@ -4307,16 +4303,7 @@
 	    this.setState({ chossen: chossen.name });
 	    // console.log("chossen",chossen.name);
 	  },
-	  createTeams: function createTeams() {
-	    var teamq = this.state.teamMem;
-	    //console.log("teamq",teamq);
-	    var teams = _.chunk(this.props.students, teamq);
-	    this.setState({ teams: teams });
-	    //console.log("teams",teams);
-	  },
 	  render: function render() {
-	    var _this = this;
-
 	    var studentNames = this.props.students.map(function (student) {
 	      return _react2.default.createElement(
 	        'li',
@@ -4339,19 +4326,11 @@
 	      ),
 	      _react2.default.createElement('br', null),
 	      _react2.default.createElement(
-	        'button',
-	        { onClick: this.createTeams },
-	        'Create Teams Of'
-	      ),
-	      _react2.default.createElement('input', { type: 'number', value: this.state.teamMem, onChange: function onChange(e) {
-	          return _this.setState({ teamMem: e.target.value });
-	        } }),
-	      _react2.default.createElement(
 	        'ol',
 	        null,
 	        studentNames
 	      ),
-	      _react2.default.createElement(_createTeams2.default, { teams: this.teams })
+	      _react2.default.createElement(_createTeams2.default, { students: this.props.students })
 	    );
 	  }
 	});
@@ -4374,20 +4353,53 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var _ = __webpack_require__(39);
+
 	var CreateTeams = _react2.default.createClass({
 	  displayName: 'CreateTeams',
-
-	  // getInitialState(){
-	  //   return {
-	  //     teams : this.props.teams
-	  //   }
-	  // },
+	  getInitialState: function getInitialState() {
+	    return {
+	      teams: [],
+	      teamMem: ''
+	    };
+	  },
+	  createTeams: function createTeams() {
+	    var teamq = this.state.teamMem;
+	    //console.log("teamq",teamq);
+	    var teams = _.chunk(_.shuffle(this.props.students), teamq);
+	    this.setState({ teams: teams });
+	    console.log("teams", teams);
+	  },
 	  render: function render() {
+	    var _this = this;
+
 	    //console.log("teams",this.state.teams);
+	    var teamslist = this.state.teams.map(function (team) {
+	      var te = team.map(function (mem) {
+	        return _react2.default.createElement(
+	          'li',
+	          { key: mem.id },
+	          mem.name
+	        );
+	      });
+	      return _react2.default.createElement(
+	        'ul',
+	        null,
+	        te
+	      );
+	    });
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      this.props.teams
+	      _react2.default.createElement(
+	        'button',
+	        { onClick: this.createTeams },
+	        'Create Teams Of'
+	      ),
+	      _react2.default.createElement('input', { type: 'number', value: this.state.teamMem, onChange: function onChange(e) {
+	          return _this.setState({ teamMem: e.target.value });
+	        } }),
+	      teamslist
 	    );
 	  }
 	});
